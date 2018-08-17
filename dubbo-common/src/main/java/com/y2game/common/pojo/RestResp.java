@@ -8,14 +8,9 @@ import java.io.Serializable;
  * @author Exrickx
  * @Date 2018/03/24
  */
-public class Result<T> implements Serializable{
+public class RestResp<T> implements Serializable{
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 成功标志
-     */
-    private boolean success=true;
 
     /**
      * 失败消息
@@ -37,9 +32,15 @@ public class Result<T> implements Serializable{
      */
     private T result;
 
-    public Result(T t){
+    public RestResp(T t){
         this.result=t;
     }
+
+    public RestResp(Integer code, String msg){
+        this.code=code;
+        this.message=msg;
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -54,14 +55,6 @@ public class Result<T> implements Serializable{
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public String getMessage() {
@@ -79,4 +72,6 @@ public class Result<T> implements Serializable{
     public void setResult(T result) {
         this.result = result;
     }
+
+
 }

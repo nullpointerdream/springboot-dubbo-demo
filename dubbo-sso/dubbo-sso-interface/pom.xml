@@ -11,6 +11,13 @@
 
     <groupId>com.y2game</groupId>
     <artifactId>dubbo-sso-interface</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.y2game</groupId>
+            <artifactId>dubbo-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

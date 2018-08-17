@@ -1,7 +1,8 @@
 package com.y2game.dubbo.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.y2game.common.pojo.Result;
+import com.y2game.common.pojo.RestResp;
+import com.y2game.common.util.CookieUtils;
 import com.y2game.dubbo.pojo.UserDO;
 import com.y2game.dubbo.service.UserService;
 import io.swagger.annotations.Api;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static com.alibaba.dubbo.common.Constants.TOKEN_KEY;
 
 /**
  * @Auther: chenjiale
@@ -30,12 +34,23 @@ public class UserController {
 
     @RequestMapping(value="/getCode", method = RequestMethod.POST)
     @ApiOperation(value="获取验证码")
-    @ApiImplicitParams({@ApiImplicitParam(name = "phone", value = "游戏id 测试appid1001",paramType = "form")})
-    public Result sendValidateCode(String phone){
-        UserDO byUsername = userService.findByUsername(phone);
-        return new Result(byUsername);
+    @ApiImplicitParams({@ApiImplicitParam(name = "phone", value = "电话",paramType = "form")})
+    public RestResp sendValidateCode(String phone){
+        return userService.findByUsername(phone);
     }
 
-
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    @ApiOperation(value="登录")
+    @ApiImplicitParams({@ApiImplicitParam(name = "phone", value = "账号",paramType = "form"),
+                        @ApiImplicitParam(name = "password", value = "密码",paramType = "form")})
+    public RestResp sendValidateCode(String phone, String password, HttpServletRequest request, HttpServletResponse response){
+        RestResp restResp = userService.login(phone, password);
+        if(restResp.getCode() == 200) {
+            String token = restResp.getResult().toString();
+            //如果登录成功需要把token写入cookie
+            CookieUtils.setCookie(request, response, TOKEN_KEY, token);
+        }
+        return restResp;
+    }
 
 }

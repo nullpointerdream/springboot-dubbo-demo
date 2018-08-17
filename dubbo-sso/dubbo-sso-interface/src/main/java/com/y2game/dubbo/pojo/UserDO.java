@@ -1,5 +1,7 @@
 package com.y2game.dubbo.pojo;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ public class UserDO implements Serializable {
 
     private String username;
 
+    private String token;
 
     private String password;
 
@@ -41,5 +44,13 @@ public class UserDO implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

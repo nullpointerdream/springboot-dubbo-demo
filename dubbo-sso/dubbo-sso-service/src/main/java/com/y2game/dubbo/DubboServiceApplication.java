@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @EnableConfigurationProperties
 @MapperScan("com.y2game.dubbo.dao")
-/*@ImportResource("classpath:dubbo.xml")*/
+
 @EnableDubboConfiguration//then add @EnableDubboConfiguration on Spring Boot Application, indicates that dubbo is enabled.(web or non-web application can use dubbo provider)
 public class DubboServiceApplication {
 

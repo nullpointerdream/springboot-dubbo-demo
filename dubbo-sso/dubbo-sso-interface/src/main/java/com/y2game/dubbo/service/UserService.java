@@ -1,6 +1,6 @@
 package com.y2game.dubbo.service;
 
-
+import com.y2game.common.pojo.RestResp;
 import com.y2game.dubbo.pojo.UserDO;
 
 /**
@@ -9,5 +9,9 @@ import com.y2game.dubbo.pojo.UserDO;
  * @Description:
  */
 public interface UserService {
-    UserDO findByUsername(String username);
+    RestResp findByUsername(String username);
+
+    RestResp login(String username,String password);
+
+    RestResp getUserByToken(String token);
 }
