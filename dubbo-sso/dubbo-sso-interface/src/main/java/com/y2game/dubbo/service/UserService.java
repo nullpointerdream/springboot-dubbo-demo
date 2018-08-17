@@ -14,4 +14,6 @@ public interface UserService {
     RestResp login(String username,String password);
 
     RestResp getUserByToken(String token);
+
+    RestResp loginOut(String token);
 }

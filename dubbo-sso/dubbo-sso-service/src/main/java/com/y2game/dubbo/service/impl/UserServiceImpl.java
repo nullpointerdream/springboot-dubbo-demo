@@ -5,12 +5,10 @@ import com.google.gson.Gson;
 import com.y2game.common.jedis.JedisClient;
 import com.y2game.common.pojo.ErrorCodes;
 import com.y2game.common.pojo.RestResp;
-import com.y2game.common.util.CookieUtils;
 import com.y2game.common.util.JsonUtils;
 import com.y2game.dubbo.dao.UserMapper;
 import com.y2game.dubbo.pojo.UserDO;
 import com.y2game.dubbo.service.UserService;
-import javassist.compiler.ast.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -71,5 +69,11 @@ public class UserServiceImpl implements UserService {
         jedisClient.expire("SESSION:" + token, SESSION_EXPIRE);
         UserDO userDO = new Gson().fromJson(json,UserDO.class);
         return new RestResp(userDO);
+    }
+
+    @Override
+    public RestResp loginOut(String token) {
+        jedisClient.del("SESSION:" + token);
+        return new RestResp();
     }
 }

@@ -35,7 +35,8 @@ public class RestResp<T> implements Serializable{
     public RestResp(T t){
         this.result=t;
     }
-
+    public RestResp(){
+    }
     public RestResp(Integer code, String msg){
         this.code=code;
         this.message=msg;

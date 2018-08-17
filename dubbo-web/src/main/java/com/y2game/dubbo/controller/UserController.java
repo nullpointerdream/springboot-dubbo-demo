@@ -42,7 +42,7 @@ public class UserController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     @ApiOperation(value="登录")
     @ApiImplicitParams({@ApiImplicitParam(name = "phone", value = "账号",paramType = "form"),
-                        @ApiImplicitParam(name = "password", value = "密码",paramType = "form")})
+            @ApiImplicitParam(name = "password", value = "密码",paramType = "form")})
     public RestResp sendValidateCode(String phone, String password, HttpServletRequest request, HttpServletResponse response){
         RestResp restResp = userService.login(phone, password);
         if(restResp.getCode() == 200) {
@@ -52,5 +52,14 @@ public class UserController {
         }
         return restResp;
     }
+
+    @RequestMapping(value="/loginOut", method = RequestMethod.POST)
+    @ApiOperation(value="退出登录")
+    public RestResp loginOut(HttpServletRequest request, HttpServletResponse response){
+        String token = CookieUtils.getCookieValue(request, TOKEN_KEY);
+        RestResp restResp = userService.loginOut(token);
+        return restResp;
+    }
+
 
 }
