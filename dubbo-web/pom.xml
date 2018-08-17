@@ -16,10 +16,9 @@
 			<artifactId>dubbo-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.y2game</groupId>
-			<artifactId>dubbo-interface</artifactId>
+			<artifactId>dubbo-sso-interface</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

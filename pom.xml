@@ -8,8 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
 		<module>dubbo-common</module>
-		<module>dubbo-interface</module>
-		<module>dubbo-service</module>
+		<module>dubbo-sso</module>
 	</modules>
 	<packaging>pom</packaging>
 
