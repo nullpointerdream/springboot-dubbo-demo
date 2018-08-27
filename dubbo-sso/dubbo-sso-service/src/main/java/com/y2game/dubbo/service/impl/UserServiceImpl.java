@@ -1,6 +1,8 @@
 package com.y2game.dubbo.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
 import com.y2game.common.jedis.JedisClient;
 import com.y2game.common.pojo.ErrorCodes;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -75,5 +78,11 @@ public class UserServiceImpl implements UserService {
     public RestResp loginOut(String token) {
         jedisClient.del("SESSION:" + token);
         return new RestResp();
+    }
+
+    @Override
+    public List<UserDO> list(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        return userMapper.getUsers();
     }
 }

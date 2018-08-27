@@ -1,7 +1,10 @@
 package com.y2game.dubbo.service;
 
+import com.github.pagehelper.Page;
 import com.y2game.common.pojo.RestResp;
 import com.y2game.dubbo.pojo.UserDO;
+
+import java.util.List;
 
 /**
  * @Auther: chenjiale
@@ -16,4 +19,7 @@ public interface UserService {
     RestResp getUserByToken(String token);
 
     RestResp loginOut(String token);
+
+    List<UserDO> list(int pageNo, int pageSize);
+
 }

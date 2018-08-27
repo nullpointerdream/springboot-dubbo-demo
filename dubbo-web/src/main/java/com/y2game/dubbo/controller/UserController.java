@@ -1,6 +1,8 @@
 package com.y2game.dubbo.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.y2game.common.pojo.RestResp;
 import com.y2game.common.util.CookieUtils;
 import com.y2game.dubbo.pojo.UserDO;
@@ -45,6 +47,7 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "密码",paramType = "form")})
     public RestResp sendValidateCode(String phone, String password, HttpServletRequest request, HttpServletResponse response){
         RestResp restResp = userService.login(phone, password);
+        PageInfo<UserDO> pageInfo = new PageInfo<>( userService.list(1, 10));
         if(restResp.getCode() == 200) {
             String token = restResp.getResult().toString();
             //如果登录成功需要把token写入cookie
@@ -60,6 +63,12 @@ public class UserController {
         RestResp restResp = userService.loginOut(token);
         return restResp;
     }
-
+    
+    @RequestMapping(value="/list", method = RequestMethod.GET)
+    @ApiOperation(value="查询所有")
+    public RestResp list(Integer pageNum,Integer pageSize){
+        PageInfo<UserDO> pageInfo = new PageInfo<>( userService.list(pageNum, pageSize));
+        return new RestResp(pageInfo);
+    }
 
 }
