@@ -23,11 +23,11 @@ import java.io.IOException;
  * 用户登录处理拦截器
  * <p>Title: LoginInterceptor</p>
  */
-@WebFilter("/*")
-@Order(Integer.MAX_VALUE)
-public class RequestFilter implements Filter {
+/*@WebFilter("/*")
+@Order(Integer.MAX_VALUE)*/
+public class RequestFilter /*implements Filter */{
 
-	@Reference
+	/*@Reference
 	private UserService userService;
 
 	@Override
@@ -84,7 +84,7 @@ public class RequestFilter implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 
 	}
-
+*/
 
 
 }

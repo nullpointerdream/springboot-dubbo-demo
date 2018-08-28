@@ -1,12 +1,12 @@
 package com.y2game.dubbo.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
 import com.y2game.common.jedis.JedisClient;
 import com.y2game.common.pojo.ErrorCodes;
 import com.y2game.common.pojo.RestResp;
+import com.y2game.common.util.JWTUtil;
 import com.y2game.common.util.JsonUtils;
 import com.y2game.dubbo.dao.UserMapper;
 import com.y2game.dubbo.pojo.UserDO;
@@ -14,6 +14,7 @@ import com.y2game.dubbo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
@@ -24,7 +25,8 @@ import java.util.UUID;
  * code your dubbo service, add @Service(import com.alibaba.dubbo.config.annotation.Service) o
  * n your service class, and interfaceClass is the interface which will be published
  */
-@Service(interfaceClass = UserService.class,timeout = 5000)
+// @Service(interfaceClass = UserService.class,timeout = 5000)
+@Service
 @Component
 public class UserServiceImpl implements UserService {
 
@@ -35,10 +37,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JedisClient jedisClient;
     @Override
-    public RestResp findByUsername(String username) {
+    public UserDO findByUsername(String username) {
         UserDO userDO = new UserDO();
         userDO.setUsername(username);
-        return new RestResp(userMapper.selectOne(userDO));
+        return userMapper.selectOne(userDO);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
         if (!DigestUtils.md5DigestAsHex(password.getBytes()).equals(userDO.getPassword())) {
             return new RestResp(ErrorCodes.USER_ERROR.getErrorCode(),ErrorCodes.USER_ERROR.getInfo());
         }
-        String token = UUID.randomUUID().toString();
+        String token = JWTUtil.sign(username,DigestUtils.md5DigestAsHex(password.getBytes()));
         userDO.setToken(token);
         userDO.setPassword(null);
        // 用户信息写入redis：key："SESSION:token" value："user"

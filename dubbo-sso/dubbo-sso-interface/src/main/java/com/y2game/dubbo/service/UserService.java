@@ -12,7 +12,7 @@ import java.util.List;
  * @Description:
  */
 public interface UserService {
-    RestResp findByUsername(String username);
+    UserDO findByUsername(String username);
 
     RestResp login(String username,String password);
 

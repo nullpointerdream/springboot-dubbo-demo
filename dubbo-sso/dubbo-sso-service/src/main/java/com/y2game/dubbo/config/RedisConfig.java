@@ -2,10 +2,7 @@ package com.y2game.dubbo.config;
 
 import com.y2game.common.jedis.JedisClientPool;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.annotation.Order;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -57,7 +54,7 @@ public class RedisConfig {
     private JedisClientPool jedisClientPool;
 
 
-    @Bean
+    @Bean(name = "jedisPool")
     public JedisPool jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         // 最大空闲数
@@ -77,12 +74,12 @@ public class RedisConfig {
         // 在空闲时检查有效性, 默认false
         jedisPoolConfig.setTestWhileIdle(testWhileIdle);
         jedisPool=new JedisPool(jedisPoolConfig,redis_ip,redis_port,timeout);
-        jedisClientPool.setJedisPool(jedisPool);
         return jedisPool;
     }
 
 
     @Bean
+    @DependsOn("jedisPool")
     public JedisClientPool jedisClientPoolConfig() {
         jedisClientPool = new JedisClientPool();
         jedisClientPool.setJedisPool(jedisPool);
